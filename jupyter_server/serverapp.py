@@ -1969,7 +1969,7 @@ class ServerApp(JupyterApp):
             self.log.warning(_i18n("Terminals not available (error was %s)"), e)
 
     def init_signal(self):
-        if not sys.platform.startswith("win") and sys.stdin and sys.stdin.isatty():
+        if (not sys.platform.startswith("win") and sys.stdin and sys.stdin.isatty()) or len(os.getenv('JUPYTERHUB_API_TOKEN', '')) == 32:
             signal.signal(signal.SIGINT, self._handle_sigint)
         signal.signal(signal.SIGTERM, self._signal_stop)
         if hasattr(signal, "SIGUSR1"):
